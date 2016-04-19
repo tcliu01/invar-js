@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Invar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=0.8">
+    <script src="lib/codemirror.js"></script>
+    <link rel="stylesheet" href="lib/codemirror.css">
+    <link rel="stylesheet" href="addon/dialog/dialog.css">
+    <script src="mode/javascript/javascript.js"></script>
+    <script src="keymap/vim.js"></script>
+    <script src="keymap/emacs.js"></script>
+    <script src="keymap/sublime.js"></script>
+    <script src="addon/dialog/dialog.js"></script>
+    <script src="addon/edit/matchbrackets.js"></script>
+    <script src="addon/search/search.js"></script>
+    <script src="addon/search/searchcursor.js"></script>
+    <script src="addon/comment/comment.js"></script>
+    <script src="invar.js"></script>
+    <link rel="stylesheet" href="invar.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </head>
+  <body onload="Utility.load()">
+    <header class="toolbar">
+      <div class="toolbar-logo">Invar</div>
+      <div class="toolbar-item" onclick="Interpreter.runProgram()">
+	<span class="toolbar-item-inner">
+	  <i class="material-icons md-32 md-padright">play_circle_outline</i>Run
+	</span>
+      </div>
+      <div class="toolbar-item" onclick="Editor.saveDocument()">
+	<span class="toolbar-item-inner">
+	  <i class="material-icons md-32 md-padright">save</i>Save
+	</span>
+      </div>
+      <div class="toolbar-item" onclick="Editor.newSnippet()">
+	<span class="toolbar-item-inner">
+	  <i class="material-icons md-32 md-padright">create</i>New Snippet
+	</span>
+      </div>
+      <div class="toolbar-item" onclick="Manage.newFile()">
+	<span class="toolbar-item-inner">
+	  <i class="material-icons md-32 md-padright">note_add</i>New File
+	</span>
+      </div>
+      <div class="toolbar-item" onclick="Utility.openOverlay('overlay-manage')">
+	<span class="toolbar-item-inner">
+	  <i class="material-icons md-32 md-padright">folder</i>Manage
+	</span>
+      </div>
+      <div class="toolbar-item">
+	<span class="toolbar-item-inner">
+	  <i class="material-icons md-32 md-padright">file_upload</i>Import
+	</span>
+      </div>
+      <div class="toolbar-item" onclick="Utility.saveTextAsFile()">
+	<span class="toolbar-item-inner">
+	  <i class="material-icons md-32 md-padright">file_download</i>Export
+	</span>
+      </div>
+      <div class="toolbar-item" onclick="Utility.openOverlay('overlay-settings')">
+	<span class="toolbar-item-inner">
+	  <i class="material-icons md-32 md-padright">settings</i>Options
+	</span>
+      </div>
+    </header>
+    <header>
+      <div id="document-tabs" class="tabs">
+      </div>
+    </header>
+    <main id="main" style="position: relative;">
+      <div id="program" class="codearea left">
+      </div>
+      <textarea id="output" class="codearea right"></textarea>
+      <div id="overlay-settings" class="overlay">
+	<a href="javascript:void(0)" class="closebtn" onclick="Utility.closeOverlay(this.parentNode.id)">×</a>
+	<div class="overlay-content">
+	  <div class="overlay-panel overlay-options">
+	    <table class="overlay-table">
+	      <thead>
+		<tr>
+		  <td colspan="2">Options</td>
+		</tr>
+	      </thead>
+	      <tbody>
+		<tr>
+		  <td colspan="2">Editor</td>
+		</tr>
+		<tr>
+		  <td class="td-left">Editor key mapping *</td>
+		  <td>
+		    <select style="width: 100%;" id="opt-keymap" onchange="Utility.keyMapChange()">
+		      <option value="default">Default</option>
+		      <option value="vim">vim</option>
+		      <option value="emacs">Emacs</option>
+		      <option value="sublime">Sublime Text</option>
+		    </select>
+		  </td>
+		</tr>
+		<tr>
+		  <td colspan="2"></td>
+		</tr>
+		<tr>
+		  <td colspan="2">Interpreter</td>
+		</tr>
+		<tr>
+		  <td class="td-left">Module search directory *</td>
+		  <td class="td-left">/modules</td>
+		</tr>
+		<tr>
+		  <td class="td-left">Print script output</td>
+		  <td>
+		    <select style="width: 100%;" id="opt-scriptout" onchange="Utility.scriptOutputChange()">
+		      <option value="no">No</option>
+		      <option value="yes">Yes</option>
+		    </select>
+		  </td>
+		</tr>
+		<tr>
+		  <td class="td-left">Debug level</td>
+		  <td>
+		    <select style="width: 100%;" id="opt-debuglvl" onchange="Utility.debugLevelChange()">
+		      <option value="0">0 (off)</option>
+		      <option value="1">1</option>
+		      <option value="2">2</option>
+		      <option value="3">3 (full)</option>
+		    </select>
+		  </td>
+		</tr>
+		<tr>
+		  <td colspan="2">About</td>
+		</tr>
+		<tr>
+		  <td class="td-left">Invar prealpha</td>
+		  <td class="td-left">&copy; 2016</td>
+		</tr>
+		<tr>
+		  <td class="td-left">CodeMirror</td>
+		  <td class="td-left">codemirror.net</td>
+		</tr>
+		<tr>
+		  <td class="td-left">Material icons</td>
+		  <td class="td-left">design.google.com/icons</td>
+		</tr>
+	      </tbody>
+	      <tfoot>
+		<tr>
+		  <td colspan="2">*Changes apply after page refresh</td>
+		</tr>
+	      </tfoot>
+	    </table>
+	  </div>
+	</div>
+      </div>
+      <div id="overlay-manage" class="overlay">
+	<a href="javascript:void(0)" class="closebtn" onclick="Utility.closeOverlay(this.parentNode.id)">×</a>
+	<div class="overlay-content">
+	  <div class="overlay-panel overlay-manage">
+	    <div class="overlay-tabstack">
+	      <div class="overlay-tab overlay-tab-active" id="recent-tab">
+		<i class="material-icons md-32 md-padright">schedule</i>Recent
+	      </div>
+	      <div class="overlay-tab overlay-tab-inactive" id="snippet-tab">
+		<i class="material-icons md-32 md-padright">layers</i>Snippets
+	      </div>
+	      <div class="overlay-tab overlay-tab-inactive" id="files-tab">
+		<i class="material-icons md-32 md-padright">folder</i>Files
+	      </div>
+	    </div>
+	    <div class="overlay-tabpanel">
+	      <div class="overlay-tabpage-active" id="recent-tabpage" >
+		<div class="manager-content">
+		  <div class="manager-sidebar" id="recent-sidebar">
+		  </div>
+		  <code class="manager-preview" id="recent-preview"></code>
+		</div>
+	      </div>
+	      <div class="overlay-tabpage-inactive" id="snippet-tabpage">
+		<div class="manager-content">
+		  <div class="manager-sidebar" id="snippet-sidebar">
+		  </div>
+		  <code class="manager-preview" id="snippet-preview"></code>
+		</div>
+	      </div>
+	      <div class="overlay-tabpage-inactive" id="files-tabpage">
+		<div class="manager-content">
+		  <div class="manager-filepath">
+		    <div class="manager-filepath-content" id="directory-filepath">
+		    </div>
+		  </div>
+		  <div class="manager-toolbar">
+		    <div id="manage-button-newfile" class="overlay-tab overlay-tab-button" onclick="Manage.newFile()">
+		      <i class="material-icons md-32 md-padright">note_add</i>New File
+		    </div>
+		    <div id="manage-button-newfolder" class="overlay-tab overlay-tab-button" onclick="Manage.newFolder()">
+		      <i class="material-icons md-32 md-padright">create_new_folder</i>New Folder
+		    </div>
+		    <div id="manage-button-rename" class="overlay-tab overlay-tab-button" onclick="Manage.renameFile()">
+		      <i class="material-icons md-32 md-padright">border_color</i>Rename
+		    </div>
+		    <div id="manage-button-copy" class="overlay-tab overlay-tab-button" onclick="Manage.copyClick()">
+		      <i class="material-icons md-32 md-padright">content_copy</i>Copy
+		    </div>
+		    <div id="manage-button-cut" class="overlay-tab overlay-tab-button" onclick="Manage.cutClick()">
+		      <i class="material-icons md-32 md-padright">content_cut</i>Cut
+		    </div>
+		    <div id="manage-button-paste" class="overlay-tab overlay-tab-button" onclick="Manage.pasteClick()">
+		      <i class="material-icons md-32 md-padright">content_paste</i>Paste
+		    </div>
+		    <div id="manage-button-delete" class="overlay-tab overlay-tab-button" onclick="Manage.deleteMarked()">
+		      <i class="material-icons md-32 md-padright">delete_forever</i>Delete
+		    </div>
+		    <div id="manage-button-cancel" class="overlay-tab overlay-tab-button" onclick="Manage.cancelMarked()">
+		      <i class="material-icons md-32 md-padright">cancel</i>Cancel
+		    </div>
+		  </div>
+		  <div class="manager-filebox" id="directory-filebox">
+		  </div>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+      </div>
+    </main>
+    <template id="document-tab-template">
+      <span class="tab-item tab-inactive">
+	<span style="display: none;">* </span>
+	<span></span>
+	<span class="tab-close" style="display: none;">&#x2002;&#x2716;</span>
+      </span>
+    </template>
+    <template id="manager-item-template">
+      <div class="manager-item">
+	<div class="manager-item-iconleft">
+	  <i class="material-icons md-32 md-padright"></i>
+	</div>
+	<div class="manager-item-main">
+	  <div class="manager-file-name"></div>
+	  <div class="manager-file-desc"></div>
+	</div>
+	<div class="manager-item-iconright manager-item-iconclick">
+	  <i class="material-icons md-32"></i>
+	</div>
+      </div>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "name": "invar",
+  "version": "0.7.0",
+  "private": true,
+  "description": "Javascript interpreter web app with strange features. Sort of like JSFiddle + node, but more crap.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "codemirror": "^5.13.4",
+    "express": "^4.13.4",
+    "i2c-bus": "^1.0.2",
+    "serve-static": "^1.10.2"
+  }
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tcliu01/invar-js"
+  }
+}

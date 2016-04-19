@@ -1,0 +1,371 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+}
+
+.CodeMirror {
+    font-family: Consolas, "Lucida Console", Monaco, monospace;
+    height: 100%;
+}
+
+.toolbar {
+    font-family: 'Open Sans', sans-serif;
+    color: #888;
+    height: 60px;
+    overflow-x: hidden;
+}
+
+.toolbar-item {
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+    line-height: 60px;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+.toolbar-logo {
+    height: 100%;
+    line-height: 60px;
+    padding: 0 10px;
+    float: left;
+    font-weight: 700;
+    font-size: 28px;
+}
+
+.toolbar-item-inner{
+    padding: 5px 0px;
+    border-top: solid 3px rgba(255, 255, 255, 0.0);
+    border-bottom: solid 3px rgba(255, 255, 255, 0.0);
+    transition: 0.3s;
+}
+
+.toolbar-item:hover .toolbar-item-inner{
+    border-bottom: solid 3px #888;
+    transition: 0.3s;
+}
+
+.codearea {
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    border: solid 1px #ddd;
+}
+
+.material-icons {
+    vertical-align: middle;
+}
+
+.material-icons.md-32 {
+    font-size: 32px;
+}
+
+.md-padright {
+    padding-right: 5px;    
+}
+
+.left {
+    left: 0;
+}
+
+.right {
+    right: 0;
+}
+
+#output {
+    box-sizing: border-box;
+    padding-left: 5px;
+    font-family: Consolas, "Lucida Console", Monaco, monospace;
+    font-size: inherit;
+    resize: none;
+}
+
+.tabs {
+    font-family: 'Open Sans', sans-serif;
+    color: #888;
+    background-color: #eee;
+    height: 25px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.tab-item {
+    padding: 2px 10px;
+    border: solid 1px #ddd;    
+}
+
+.tab-active {
+    padding: 5px 10px;
+    font-weight: bold;
+    background-color: #fff;
+}
+
+.tab-inactive {
+    cursor: pointer;
+}
+
+.tab-close {
+    font-weight: normal;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.overlay {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 9;
+    top: 0;
+    left: 0;
+    background-color: rgb(255, 255, 255);
+    background-color: rgba(255, 255, 255, 0.8);
+    overflow-x: hidden;
+    transition: 0.2s;
+}
+
+.overlay-content {
+    font-family: 'Open Sans', sans-serif;
+    color: #888;
+    position: relative;
+    top: 10%;
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.overlay-panel {
+    position: relative;
+    left: 50%;
+    background-color: #eee;
+    box-shadow: 2px 2px 1px #888;
+}
+
+.overlay-options {
+    width: 500px;
+    margin-left: -250px;
+}
+
+.overlay-manage {
+    width: 800px;
+    margin-left: -400px;
+    height: 600px;
+}
+
+.overlay-tabstack {
+    border-left: solid 1px #eee;
+    border-top: solid 1px #eee;
+    text-align: left;
+    width: 100%;
+    height: 45px;
+    background-color: #fff;
+}
+
+.overlay-tab {
+    display: inline-block;
+    height: 100%;
+    line-height: 45px;
+    padding: 0 10px;
+}
+
+.overlay-tab-active {
+    background-color: #eee;
+}
+
+.overlay-tab-inactive, .overlay-tab-button {
+    cursor: pointer;
+}
+
+.overlay-tab-button:hover {
+    background-color: #eee;
+}
+
+.overlay-tabpanel {
+    text-align: left;
+    padding: 10px;
+    height: 555px;
+}
+
+.overlay-tabpage-active {
+    display: initial;
+}
+
+.overlay-tabpage-inactive {
+    display: none;
+}
+
+.overlay-table {
+    width: 100%;
+    text-align: center;
+    padding: 5px;
+}
+
+.overlay-table td {
+    padding: 5px;
+}
+
+.overlay-table thead {
+    font-size: 120%;
+}
+
+.overlay-table tfoot {
+    font-size: 80%;
+}
+
+.overlay-table td.td-left {
+    text-align: left;
+}
+
+.overlay a {
+    padding: 8px;
+    text-decoration: none;
+    color: #888;
+    display: block;
+    transition: 0.3s;
+}
+
+.overlay a:hover,
+.overlay a:focus {
+    color: #444
+}
+
+.closebtn {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px !important;
+}
+
+@media screen and (max-height: 450px) {
+    .overlay a {font-size: 20px}
+    .closebtn {
+	font-size: 40px !important;
+	top: 15px;
+	right: 35px;
+    }
+}
+
+.manager-content {
+    height: 530px;
+}
+
+.manager-sidebar {
+    border: solid 1px #ddd;
+    width: 250px;
+    height: 100%;
+    background-color: #fff;
+    overflow-y: scroll;
+    float: left;
+    margin-right: 10px;
+}
+
+.manager-preview {
+    border: solid 1px #ddd;
+    width: 510px;
+    height: 100%;
+    padding-left: 5px;
+    overflow: hidden;
+    background-color: #fff;
+    float: left;
+    font-family: Consolas, "Lucida Console", Monaco, monospace;
+    color: #000;
+    white-space: nowrap;
+}
+
+.manager-filepath {
+    border: solid 1px #ddd;
+    width: 777px;
+    height: 25px;
+    display: table-cell;
+    vertical-align: middle;
+    background-color: #fff;
+}
+
+.manager-filepath-content {
+    padding-left: 10px;
+}
+
+.manager-toolbar {
+    border: solid 1px #ddd;
+    width: 777px;
+    height: 45px;
+    background-color: #fff;
+}
+
+.manager-filebox {
+    border: solid 1px #ddd;
+    width: 777px;
+    height: 456px;
+    background-color: #fff;
+    overflow-y: scroll;
+}
+
+.manager-item {
+    padding: 5px;
+    height: 35px;
+    width: 210px;
+    background-color: #fff;
+    border: solid 1px #ddd;
+    box-shadow: 1px 1px 1px #888;
+    cursor: pointer;
+}
+
+.manager-item-list {
+    margin: 5px;
+}
+
+.manager-item-grid {
+    display: inline-block;
+    margin: 12px 16px 0px 12px;
+}
+
+.manager-item-marked {
+    background-color: #eee;
+}
+
+.manager-item-marked .manager-item-iconclick {
+    color: #888;
+}
+
+.manager-text {
+    width: 100%;
+    padding-top: 10px;
+    text-align: center;
+    font-style: italic;
+}
+
+.manager-item-iconleft {
+    margin-top: 2px;
+    float: left;
+}
+
+.manager-item-main {
+    float: left;
+}
+
+.manager-item-iconright {
+    margin-top: 2px;
+    float: right;
+}
+
+.manager-item-iconclick {
+    color: #ddd;
+}
+
+.manager-item-iconclick:hover {
+    color: #888;
+}
+
+.manager-file-desc {
+    font-size: 80%;
+}
+
+.filepath-item {
+    cursor: pointer;
+}
+
+.filepath-item:hover {
+    text-decoration: underline;
+}
